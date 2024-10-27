@@ -62,18 +62,21 @@ exports.deleteBook = async (req, res) => {
   }
 };
 
-exports.getAllBooks = async (req, res) => {
+exports.getBooks = async (req, res) => {
   try {
+    // Destructuring the query parameters from the request
     const { title, author, genre, page = 1 } = req.query;
     const limit = 10;
     const skip = (page - 1) * limit;
 
     const filter = {};
+    // Add filters based on provided query parameters
     if (title) filter.title = { $regex: title, $options: 'i' };
     if (author) filter.author = { $regex: author, $options: 'i' };
     if (genre) filter.genre = { $regex: genre, $options: 'i' };
-
+     // Count total documents matching the filter
     const total = await Book.countDocuments(filter);
+    // Fetch books from the database with pagination
     const books = await Book.find(filter).skip(skip).limit(limit);
 
     res.json({ books, total });
@@ -82,13 +85,11 @@ exports.getAllBooks = async (req, res) => {
   }
 };
 
-
+//Fetch all user's own Books
 exports.myBooks = async (req, res) => {
   try {
-    const userId = req.user._id; // Assuming you're setting req.user in your verifyToken middleware
-    console.log(userId);
-    const books = await Book.find({ userId: userId }); // Match directly against userId
-    console.log('Fetched books:', books);
+    const userId = req.user._id;
+    const books = await Book.find({ userId: userId });
     res.json(books);
   } catch (err) {
     console.error(err);

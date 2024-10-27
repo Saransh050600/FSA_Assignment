@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const verifyTokenMiddleware = require('../middleware/verifyToken');
 
+//Register the user
 exports.signup = async (req, res) => {
   const { email, password } = req.body;
 
@@ -23,7 +24,7 @@ exports.signup = async (req, res) => {
     res.status(500).send({ message: "Server error." });
   }
 };
-
+//Login the user
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -48,7 +49,7 @@ exports.login = async (req, res) => {
     res.status(500).send({ message: "Server error." });
   }
 };
-
+//Send Reset password URL back to the user email if the user's exist
 exports.forgotPassword = async (req, res) => {
   const { email ,currentBaseUrl} = req.body;
   try {
@@ -89,7 +90,7 @@ exports.forgotPassword = async (req, res) => {
     res.status(500).send({ message: "Server error." });
   }
 };
-
+//Reset the password of the user
 exports.resetPassword = async (req, res) => {
   const { token, newPassword } = req.body;
 
@@ -123,7 +124,6 @@ exports.resetPassword = async (req, res) => {
 
 exports.verifyToken = (req, res) => {
   verifyTokenMiddleware(req, res, () => {
-    // If we reach here, token is valid
     res.status(200).json({ message: "Token is valid", user: req.user });
   });
 };

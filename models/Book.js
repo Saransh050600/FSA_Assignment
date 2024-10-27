@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-// Assuming you already have a User schema
+// Defining the Book schema
 const BookSchema = new Schema({
   title: { type: String, required: true },
   author: { type: String, required: true },
@@ -12,5 +12,4 @@ const BookSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-// Creating the Book model
 module.exports = mongoose.model('Book', BookSchema);
