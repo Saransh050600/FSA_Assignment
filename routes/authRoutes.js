@@ -11,7 +11,7 @@ router.post('/forgot-password', authController.forgotPassword);
 
 router.post('/reset-password', authController.resetPassword);
 
-router.post('/verify-token', authController.verifyToken); // Change verifytoken to verifyToken
+router.get('/verify-token', authController.verifyToken); // Change verifytoken to verifyToken
 
 
 
